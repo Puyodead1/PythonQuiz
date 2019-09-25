@@ -11,6 +11,7 @@ from PIL import ImageTk
 
 questionArray = []
 score = 0
+questionsAnswered = 0
 
 tk = Tk()
 tk.title("PythonQuiz")
@@ -60,13 +61,18 @@ class Main():
         questionArray.append(question)
 
     def ShowChoice(self):
-        for rb in rbs:
-            rb.destroy()
-
+        global questionsAnswered
+        questionsAnswered += 1
         if answers[v.get()].lower() == correctAnswer.lower():
             print("correct")
+            global score
+            score += 1
+            for rb in rbs:
+                rb.destroy()
         else:
             print("wrong")
+            for rb in rbs:
+                rb.destroy()
 
     def askQuestions(self):
 
@@ -90,17 +96,44 @@ class Main():
             canvas.itemconfig(img, image=image)
             canvas.itemconfig(questionText, text=question)
 
-            for answerText in answers:
-                rb = Radiobutton(tk,
-                                 text=answerText,
-                                 padx=20,
-                                 variable=v,
-                                 value=answers.index(answerText),
-                                 command=self.ShowChoice)
-                rb.pack()
-                rbs.append(rb)
+            rb = Radiobutton(tk,
+                             text=answers[0],
+                             padx=20,
+                             variable=v,
+                             value=0,
+                             command=self.ShowChoice)
 
-                # TODO: wait for the first question to be answered
+            rb1 = Radiobutton(tk,
+                              text=answers[1],
+                              padx=20,
+                              variable=v,
+                              value=1,
+                              command=self.ShowChoice)
+
+            rb2 = Radiobutton(tk,
+                              text=answers[2],
+                              padx=20,
+                              variable=v,
+                              value=2,
+                              command=self.ShowChoice)
+
+            rb3 = Radiobutton(tk,
+                              text=answers[3],
+                              padx=20,
+                              variable=v,
+                              value=3,
+                              command=self.ShowChoice)
+            rb.pack()
+            rb1.pack()
+            rb2.pack()
+            rb3.pack()
+            rbs.append(rb)
+            rbs.append(rb1)
+            rbs.append(rb2)
+            rbs.append(rb3)
+
+            # questionArray.remove(questionDict)
+            canvas.wait_variable(v)
 
             # a = answer.lower()
             # if a == "quit":
@@ -113,10 +146,10 @@ class Main():
             # else:
             #     print("Incorrect, The correct answer is: " + correctAnswer)
 
-        # print("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-")
-        # print("-------Final Score: " + str(score) + "/15------")
-        # print("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-")
-        mainloop()
+        if questionsAnswered == len(questionArray):
+            print("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-")
+            print("-------Final Score: " + str(score) + "/15------")
+            print("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-")
 
 
 if __name__ == "__main__":
