@@ -22,6 +22,11 @@ def createQuestions():
         "Who did Prince Rainier of Monaco Marry?",
     )
 
+    images = (
+        "images/telephone.jpg", "images/nails.jpg", "images/tempature.jpg", "images/fleming.jpg", "images/dali.jpg",
+        "images/shakespeare.jpg", "images/lazarillo-de-tormes.jpg", "images/TicTocCroc.jpg", "images/LopedeVega.jpg", "images/DianaPrincessofWales.jpg", "images/Mulhacen.jpg", "images/USAMAP.jpg", "images/Manzanares.jpg", "images/cologne.jpg", "images/PrinceRainierofMonaco.jpg",
+    )
+
     answers = (
         ("Henry Bessemer", "Alexander Graham Bell", "Nikola Tesla", "Donald Trump"),
         ("Thumb", "Index", "Middle", "Pinky"),
@@ -80,6 +85,7 @@ def createQuestions():
     for i in range(0, len(questions)):
         x = {
             "question": questions[i],
+            "image": images[i],
             "answers": answers[i],
             "correctAnswer": correctAnswers[i],
             "comments": comments[i]
