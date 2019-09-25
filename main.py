@@ -26,6 +26,8 @@ correctAnswer = ""
 
 
 class Main():
+
+    # Reads the data.json file (auto created) and loads questions, answers, picture locations, correct answer
     def __init__(self):
         # Generate the data.json file
         createQuestions()
@@ -41,39 +43,43 @@ class Main():
             image = parsed_json[a]["image"]
             answers = parsed_json[a]["answers"]
             correctAnswer = parsed_json[a]["correctAnswer"]
-            comment = parsed_json[a]["comments"]
             self.QuestionGenerator(
-                question, image, answers, correctAnswer, comment)
+                question, image, answers, correctAnswer)
 
+        # shuffle the question array
         for x in range(0, random.randrange(0, 100)):
             random.shuffle(questionArray)
 
+        # ask questions after question data is loaded
         self.askQuestions()
 
-    def QuestionGenerator(self, question, image, answers, correctAnswer, comment):
+    # used for creating the array of questions
+    def QuestionGenerator(self, question, image, answers, correctAnswer):
         question = {
             "question": question,
             "image": image,
             "answers": answers,
-            "correctAnswer": correctAnswer,
-            "comments": comment
+            "correctAnswer": correctAnswer
         }
         questionArray.append(question)
 
+    # Callback for radiobutton answer click, handles score, removes old radio buttons and questions answered
     def ShowChoice(self):
         global questionsAnswered
         questionsAnswered += 1
         if answers[v.get()].lower() == correctAnswer.lower():
-            print("correct")
+            print("correct") # kinda debug but kinda useful to keep enabled as it shows if the answer is right or wrong before seeing score
             global score
             score += 1
             for rb in rbs:
                 rb.destroy()
         else:
-            print("wrong")
+            print("wrong") # kinda debug but kinda useful to keep enabled as it shows if the answer is right or wrong before seeing score
             for rb in rbs:
                 rb.destroy()
 
+    # function to create UI widgets that are presented to the user
+    # waiting for button press reference: https://stackoverflow.com/questions/44790449/making-tkinter-wait-untill-button-is-pressed
     def askQuestions(self):
 
         img = canvas.create_image(
@@ -82,6 +88,7 @@ class Main():
         questionText = canvas.create_text(
             250, 400, text="", font=("Arial", 12))
 
+        # loops the questions in the array
         for questionDict in questionArray:
             global correctAnswer
             global answers
@@ -96,6 +103,7 @@ class Main():
             canvas.itemconfig(img, image=image)
             canvas.itemconfig(questionText, text=question)
 
+            # radio buttons defined seperatly due to issues with freezing
             rb = Radiobutton(tk,
                              text=answers[0],
                              padx=20,
@@ -132,20 +140,9 @@ class Main():
             rbs.append(rb2)
             rbs.append(rb3)
 
-            # questionArray.remove(questionDict)
+            # wait for a radio button to be pressed, then move on to next question
             canvas.wait_variable(v)
-
-            # a = answer.lower()
-            # if a == "quit":
-            #     exit()
-            # elif a == correctAnswer:
-            #     print(correctAnswer + " is correct!")
-            #     global score
-            #     score += 1
-            #     print(str(score) + "/15")
-            # else:
-            #     print("Incorrect, The correct answer is: " + correctAnswer)
-
+        # if the questions answered is the same as the max quesions, show the score
         if questionsAnswered == len(questionArray):
             print("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-")
             print("-------Final Score: " + str(score) + "/15------")

@@ -63,32 +63,13 @@ def createQuestions():
         "Grace Kelly"
     )
 
-    comments = (
-        ("a", "https://google.com"),
-        ("a", "https://google.com"),
-        ("a", "https://google.com"),
-        ("a", "https://google.com"),
-        ("a", "https://google.com"),
-        ("a", "https://google.com"),
-        ("a", "https://google.com"),
-        ("a", "https://google.com"),
-        ("a", "https://google.com"),
-        ("a", "https://google.com"),
-        ("a", "https://google.com"),
-        ("a", "https://google.com"),
-        ("a", "https://google.com"),
-        ("a", "https://google.com"),
-        ("a", "https://google.com"),
-    )
-
     a = {}
     for i in range(0, len(questions)):
         x = {
             "question": questions[i],
             "image": images[i],
             "answers": answers[i],
-            "correctAnswer": correctAnswers[i],
-            "comments": comments[i]
+            "correctAnswer": correctAnswers[i]
         }
         a[i] = x
     with open("data.json", 'w') as f:
